@@ -1,2 +1,2 @@
-test: lex.c parser.c test.c
-	cc -o test lex.c parser.c test.c
+test: lex.cpp parser.cpp test.cpp
+	cc -o test lex.cpp parser.cpp test.cpp
