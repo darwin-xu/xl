@@ -8,76 +8,96 @@ int yylineno = 0;
 
 char lex()
 {
-	static char input_buffer[128];
-	char *current;
-	
-	current = yytext + yyleng;
+    static char input_buffer[128];
+    char *current;
 
-	while (1)
-	{
-		while (!*current)
-		{
-			current = input_buffer;
-			if (!gets(input_buffer))
-			{
-				*current = '\0';
-				return EOI;
-			}
+    current = yytext + yyleng;
 
-			++yylineno;
+    while (1)
+    {
+        while (!*current)
+        {
+            current = input_buffer;
 
-			while (isspace(*current))
-				++current;
-		}
+            if (!gets(input_buffer))
+            {
+                *current = '\0';
+                return EOI;
+            }
 
-		for (; *current; ++current)
-		{
-			yytext = current;
-			yyleng = 1;
+            ++yylineno;
 
-			switch (*current)
-			{
-			case EOF: return EOI;
-			case ';': return SEMI;
-			case '+': return PLUS;
-			case '*': return TIMES;
-			case '(': return LP;
-			case ')': return RP;
+            while (isspace(*current))
+            {
+                ++current;
+            }
+        }
 
-			case '\n':
-			case '\t':
-			case ' ': break;
+        for (; *current; ++current)
+        {
+            yytext = current;
+            yyleng = 1;
 
-			default:
-				if (!isalnum(*current))
-				{
-					fprintf(stderr, "Ignoring illegl input <%c>\n", *current);
-				}
-				else
-				{
-					while (isalnum(*current))
-						++current;
+            switch (*current)
+            {
+            case EOF:
+                return EOI;
 
-					yyleng = current - yytext;
-					return NUM;
-				}
-				break;
-			}
-		}
-	}
+            case ';':
+                return SEMI;
+
+            case '+':
+                return PLUS;
+
+            case '*':
+                return TIMES;
+
+            case '(':
+                return LP;
+
+            case ')':
+                return RP;
+
+            case '\n':
+            case '\t':
+            case ' ':
+                break;
+
+            default:
+                if (!isalnum(*current))
+                {
+                    fprintf(stderr, "Ignoring illegl input <%c>\n", *current);
+                }
+                else
+                {
+                    while (isalnum(*current))
+                    {
+                        ++current;
+                    }
+
+                    yyleng = current - yytext;
+                    return NUM;
+                }
+
+                break;
+            }
+        }
+    }
 }
 
 static int lookAhead = -1;
 
 int match(int token)
 {
-	if (lookAhead == -1)
-		lookAhead = lex();
-	
-	return token == lookAhead;
+    if (lookAhead == -1)
+    {
+        lookAhead = lex();
+    }
+
+    return token == lookAhead;
 }
 
 void advance()
 {
-	lookAhead = lex();
+    lookAhead = lex();
 }
