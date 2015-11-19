@@ -51,21 +51,27 @@ char lex()
             switch (*current)
             {
             case EOF:
+                cout << "[EOF] ";
                 return EOI;
 
             case ';':
+                cout << "[SEMI] ";
                 return SEMI;
 
             case '+':
+                cout << "[PLUS] ";
                 return PLUS;
 
             case '*':
+                cout << "[TIMES] ";
                 return TIMES;
 
             case '(':
+                cout << "[LP] ";
                 return LP;
 
             case ')':
+                cout << "[RP] ";
                 return RP;
 
             case '\n':
@@ -85,9 +91,10 @@ char lex()
                         ++current;
                     }
 
+                    // recalculate the length
                     yyleng = current - yytext;
                     string l(yytext, yyleng);
-                    cout << "[" << l << "] ";
+                    cout << "NUM[" << l << "] ";
                     return NUM;
                 }
 
