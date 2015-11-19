@@ -1,9 +1,10 @@
 #include "lex.h"
 #include <stdio.h>
 #include <ctype.h>
-#include <string>
+#include <iostream>
 
-using namespace c
+using namespace std;
+
 char *yytext = "";
 int yyleng = 0;
 int yylineno = 0;
@@ -85,8 +86,8 @@ char lex()
                     }
 
                     yyleng = current - yytext;
-
-                    fprintf(stdout, "");
+                    string l(yytext, yyleng);
+                    cout << "[" << l << "] ";
                     return NUM;
                 }
 
