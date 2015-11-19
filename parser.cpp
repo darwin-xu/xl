@@ -1,5 +1,8 @@
 #include "lex.h"
 #include <stdio.h>
+#include <iostream>
+
+using namespace std;
 
 void expr();
 void expr_prime();
@@ -9,6 +12,7 @@ void factor();
 
 void program()
 {
+    cout << __FUNCTION__ << endl;
     expr();
 
     if (match(SEMI))
@@ -17,7 +21,7 @@ void program()
     }
     else
     {
-        fprintf(stderr, "%d: missing semicolon\n", yylineno);
+        fprintf(stderr, "ERROR, line %d: missing semicolon\n", yylineno);
     }
 
     if (!match(EOI))
@@ -28,12 +32,14 @@ void program()
 
 void expr()
 {
+    cout << __FUNCTION__ << endl;
     term();
     expr_prime();
 }
 
 void expr_prime()
 {
+    cout << __FUNCTION__ << endl;
     if (match(PLUS))
     {
         advance();
@@ -44,12 +50,14 @@ void expr_prime()
 
 void term()
 {
+    cout << __FUNCTION__ << endl;
     factor();
     term_prime();
 }
 
 void term_prime()
 {
+    cout << __FUNCTION__ << endl;
     if (match(TIMES))
     {
         advance();
@@ -60,6 +68,7 @@ void term_prime()
 
 void factor()
 {
+    cout << __FUNCTION__ << endl;
     if (match(NUM))
     {
         advance();
@@ -75,11 +84,11 @@ void factor()
         }
         else
         {
-            fprintf(stderr, "%d: missmatched parenthesis\n", yylineno);
+            fprintf(stderr, "ERROR, line %d: missmatched parenthesis\n", yylineno);
         }
     }
     else
     {
-        fprintf(stderr, "%d number expected\n", yylineno);
+        fprintf(stderr, "ERROR, line %d number expected\n", yylineno);
     }
 }
