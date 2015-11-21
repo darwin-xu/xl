@@ -39,7 +39,10 @@ void freename(const char *s)
 
 void program()
 {
-    cout << __FUNCTION__ << endl;
+    if (debug)
+    {
+        cout << __FUNCTION__ << endl;
+    }
 
     const char *temp;
 
@@ -62,7 +65,10 @@ void program()
 
 const char *expr()
 {
-    cout << __FUNCTION__ << endl;
+    if (debug)
+    {
+        cout << __FUNCTION__ << endl;
+    }
 
     const char *temp = term();
 
@@ -90,7 +96,10 @@ const char *expr()
 
 const char *term()
 {
-    cout << __FUNCTION__ << endl;
+    if (debug)
+    {
+        cout << __FUNCTION__ << endl;
+    }
 
     const char *temp = factor();
 
@@ -98,7 +107,7 @@ const char *term()
     {
         advance();
         const char *temp1 = factor();
-        printf(" * %s %s %s ", temp, temp1, temp);
+        printf(" * %s %s %s\n", temp, temp1, temp);
         freename(temp1);
     }
 
@@ -118,7 +127,10 @@ const char *term()
 
 const char *factor()
 {
-    cout << __FUNCTION__ << endl;
+    if (debug)
+    {
+        cout << __FUNCTION__ << endl;
+    }
 
     const char *temp;
 

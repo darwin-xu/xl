@@ -9,6 +9,7 @@
 extern char *yytext;
 extern int yyleng;
 extern int yylineno;
+extern bool debug;
 
 char lex();
 int match(int token);

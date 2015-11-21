@@ -5,14 +5,14 @@
 
 using namespace std;
 
-char *yytext;
+static char input_buffer[128] = "";
+
+char *yytext = input_buffer;
 int yyleng = 0;
 int yylineno = 0;
 
 char lex()
 {
-    static char input_buffer[128] = "";
-    yytext = input_buffer;
     char *current;
 
     // current point to the \0.
@@ -52,27 +52,51 @@ char lex()
             switch (*current)
             {
             case EOF:
-                cout << "[lex: EOF] ";
+                if (debug)
+                {
+                    cout << "[lex: EOF] ";
+                }
+
                 return EOI;
 
             case ';':
-                cout << "[lex [SEMI] ";
+                if (debug)
+                {
+                    cout << "[lex [SEMI] ";
+                }
+
                 return SEMI;
 
             case '+':
-                cout << "[lex: PLUS] ";
+                if (debug)
+                {
+                    cout << "[lex: PLUS] ";
+                }
+
                 return PLUS;
 
             case '*':
-                cout << "[lex: TIMES] ";
+                if (debug)
+                {
+                    cout << "[lex: TIMES] ";
+                }
+
                 return TIMES;
 
             case '(':
-                cout << "[lex: LP] ";
+                if (debug)
+                {
+                    cout << "[lex: LP] ";
+                }
+
                 return LP;
 
             case ')':
-                cout << "[lex: RP] ";
+                if (debug)
+                {
+                    cout << "[lex: RP] ";
+                }
+
                 return RP;
 
             case '\n':
@@ -95,7 +119,12 @@ char lex()
                     // recalculate the length
                     yyleng = current - yytext;
                     string l(yytext, yyleng);
-                    cout << "[lex: " << l << "] ";
+
+                    if (debug)
+                    {
+                        cout << "[lex: " << l << "] ";
+                    }
+
                     return NUM;
                 }
 
