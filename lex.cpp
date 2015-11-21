@@ -5,13 +5,14 @@
 
 using namespace std;
 
-char *yytext = "";
+char *yytext;
 int yyleng = 0;
 int yylineno = 0;
 
 char lex()
 {
-    static char input_buffer[128];
+    static char input_buffer[128] = "";
+    yytext = input_buffer;
     char *current;
 
     // current point to the \0.
@@ -51,27 +52,27 @@ char lex()
             switch (*current)
             {
             case EOF:
-                cout << "[EOF] ";
+                cout << "[lex: EOF] ";
                 return EOI;
 
             case ';':
-                cout << "[SEMI] ";
+                cout << "[lex [SEMI] ";
                 return SEMI;
 
             case '+':
-                cout << "[PLUS] ";
+                cout << "[lex: PLUS] ";
                 return PLUS;
 
             case '*':
-                cout << "[TIMES] ";
+                cout << "[lex: TIMES] ";
                 return TIMES;
 
             case '(':
-                cout << "[LP] ";
+                cout << "[lex: LP] ";
                 return LP;
 
             case ')':
-                cout << "[RP] ";
+                cout << "[lex: RP] ";
                 return RP;
 
             case '\n':
@@ -94,7 +95,7 @@ char lex()
                     // recalculate the length
                     yyleng = current - yytext;
                     string l(yytext, yyleng);
-                    cout << "NUM[" << l << "] ";
+                    cout << "[lex: " << l << "] ";
                     return NUM;
                 }
 
